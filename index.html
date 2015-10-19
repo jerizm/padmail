@@ -3,12 +3,28 @@
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script>
+      function calculateDays(dateString) {
+          dateString = '20' + dateString;
+          var match = /^(\d\d\d\d)(\d\d)(\d\d)/.exec(dateString);
+          var mailDate = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+          var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+          var currentDate = new Date();
+          var diffDays = Math.round(Math.abs((currentDate.getTime() - mailDate.getTime())/(oneDay)));
+          return diffDays;
+      }
       var mailApp = angular.module('mailApp', []);
       mailApp.controller('MailCtrl', function ($scope, $http){
         var mailCtrl = this;
+        mailCtrl.mails = [];
         mailCtrl.loadJson = function() {
           $http.get(mailCtrl.jsonUrl).success(function(data) {
-            mailCtrl.mails = data.mails;
+            angular.forEach(data.mails, function(value, key) {
+              if(value.type === 3){
+                value.daysago = calculateDays(value.date);
+                mailCtrl.mails.push(value);
+              }
+            });
+
           });
         };
 
@@ -44,7 +60,7 @@
             <img src="http://puzzledragonx.com/en/img/thumbnail/{{mail.bonus_id}}.png" width="30px" height="30px" />
           </td>
           <td>
-            {{mail.date}}
+            {{mail.daysago }}d ago
           </td>
         </tr>
       </tbody>
