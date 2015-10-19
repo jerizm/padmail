@@ -61,9 +61,16 @@
           <td>
             {{mail.sub}}
           </td>
-          <td>
-            {{mail.bonus_id}}
+          <td ng-if="mail.bonus_id != 9902 && mail.bonus_id != 9900">
+            <a href="http://puzzledragonx.com/en/monster.asp?n={{mail.bonus_id}}">
             <img src="http://puzzledragonx.com/en/img/thumbnail/{{mail.bonus_id}}.png" width="30px" height="30px" />
+            </a>
+          </td>
+          <td ng-if="mail.bonus_id === 9902">
+            {{mail.amount}} Pal Points
+          </td>
+          <td ng-if="mail.bonus_id === 9900">
+            {{mail.amount}} Coins
           </td>
           <td>
             {{mail.date | date }}
