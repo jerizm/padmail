@@ -17,7 +17,7 @@
           return diffDays;
       }
       var mailApp = angular.module('mailApp', []);
-      mailApp.controller('MailCtrl', function ($scope, $http){
+      mailApp.controller('MailCtrl', function ($scope, $http, $location){
         var mailCtrl = this;
         mailCtrl.mails = [];
         mailCtrl.loadJson = function() {
@@ -32,7 +32,7 @@
 
           });
         };
-
+        mailCtrl.jsonUrl = $location.search().url;
       });
     </script>
   </head>
