@@ -37,7 +37,7 @@
     </script>
   </head>
   <body>
-  <div ng-controller="MailCtrl as mailCtrl">
+  <div ng-controller="MailCtrl as mailCtrl" class="hidden-xs">
       <form ng-submit="mailCtrl.loadJson()">
         <input type="text" ng-model="mailCtrl.jsonUrl" size="30"
                placeholder="Mailbox JSON URL">
@@ -81,6 +81,36 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div ng-controller="MailCtrl as mailCtrl" class="visible-xs-block">
+    <form ng-submit="mailCtrl.loadJson()">
+        <input type="text" ng-model="mailCtrl.jsonUrl" size="30"
+               placeholder="Mailbox JSON URL">
+        <input class="btn-primary" type="submit" value="Load">
+      </form>
+    <div class="media col-xs-12" ng-repeat="mail in mailCtrl.mails | orderBy: '-date'">
+      <div class="media-left" ng-if="mail.bonus_id != 9902 && mail.bonus_id != 9900">
+        <a href="http://puzzledragonx.com/en/monster.asp?n={{mail.bonus_id}}">
+          <img class="media-object" src="http://puzzledragonx.com/en/img/thumbnail/{{mail.bonus_id}}.png" alt="{{mail.bonus_id}}" width="64px" height="64px">
+        </a>
+      </div>
+      <div class="media-left" ng-if="mail.bonus_id === 9902">
+        <a href="#">
+          <img class="media-object" src="http://3.bp.blogspot.com/-AbxWo0MnH-I/UmA2BVJJJ5I/AAAAAAAAA48/Rqw0dZDQsMY/s1600/heart.png" width="64px" height="64px">
+        </a>
+      </div>
+      <div class="media-left" ng-if="mail.bonus_id === 9900">
+        <a href="#">
+          <img class="media-object" src="http://www.mariowiki.com/images/thumb/a/a7/P%26DSMBE_OrbYellow.png" width="64px" height="64px">
+        </a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{mail.sub}} <span class="pull-right">{{mail.daysago }}d ago</span></h4>
+        <p ng-if="mail.bonus_id === 9902">{{mail.amount}} Pal Points</p>
+        <p ng-if="mail.bonus_id === 9900">{{mail.amount}} Coins</p>
+        <span class="pull-right" ng-if="mail.offered === 1"><small>OPENED</small></span>
+      </div>
+    </div>
   </div>
   </body>
 </html>
